@@ -26,3 +26,8 @@ class Echo {
  System.out.println("First change");
  }
 }
+
+// so to clone a repo first you have to make a folder on
+//the local device i.e laptop
+//open the terminal and direct to the created folder
+//open the folder and clone the repo
