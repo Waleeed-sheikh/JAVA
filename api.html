@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY POKEMON INFO-PAGE</title>
+<style>
+    body{
+        background-color: black;
+    }
+    h1{
+        color: white;
+    }
+    label{
+        color: white;
+    }
+    #pokemonInfo{
+        color: white;
+    }
+</style>
+</head>
+<body>
+
+<h1>Pokemon Information:</h1>
+
+<label for="pokemonName">Enter Pokemon Name:</label>
+<input type="text" id="pokemonName" placeholder="e.g., pikachu">
+<button onclick="fetchPokemon()">Fetch Pokemon</button>
+
+<div id="pokemonInfo"></div>
+
+<script>
+    function fetchPokemon() {
+        // Get the entered Pokemon name
+        const pokemonName = document.getElementById("pokemonName").value.toLowerCase();
+
+        // Check if a name is entered
+        if (!pokemonName) {
+            alert("Please enter a Pokemon name.");
+            return;
+        }
+
+        // URL of the PokeAPI for the specified Pokemon
+        const apiUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonName}/`;
+
+        // Target element to display the Pokemon information
+        const pokemonInfoElement = document.getElementById("pokemonInfo");
+
+        // Fetch data from the PokeAPI
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Process the data and display it on the webpage
+                const pokemonElement = document.createElement("div");
+                pokemonElement.innerHTML = `
+                    <p><strong>Name:</strong> ${data.name}</p>
+                    <p><strong>ID:</strong> ${data.id}</p>
+                    <p><strong>Height:</strong> ${data.height}</p>
+                    <p><strong>Weight:</strong> ${data.weight}</p>
+                    <img src="${data.sprites.front_default}" alt="${data.name}"/>
+                `;
+                pokemonInfoElement.innerHTML = ""; // Clear previous data
+                pokemonInfoElement.appendChild(pokemonElement);
+            })
+            .catch(error => {
+                console.error("Error fetching Pokemon data:", error);
+                pokemonInfoElement.innerHTML = "Error fetching data from the PokeAPI.";
+            });
+    }
+</script>
+
+</body>
+</html>
